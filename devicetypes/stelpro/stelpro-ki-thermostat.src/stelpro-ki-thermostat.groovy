@@ -42,7 +42,7 @@ metadata {
 		command "eco" // Command does not exist in "Thermostat Mode"
 		command "updateWeather"
 
-		fingerprint deviceId: "0x0806", inClusters: "0x5E,0x86,0x72,0x40,0x43,0x31,0x85,0x59,0x5A,0x73,0x20,0x42", mfr: "0239", prod: "0001", model: "0001", deviceJoinName: "Stelpro Ki Thermostat"
+		fingerprint deviceId: "0x0806", inClusters: "0x5E,0x86,0x72,0x40,0x43,0x31,0x85,0x59,0x5A,0x73,0x20,0x42", mfr: "0239", prod: "0001", model: "0001", deviceJoinName: "Stelpro Thermostat" //Stelpro Ki Thermostat
 	}
 
 	// simulator metadata
@@ -336,7 +336,7 @@ def zwaveEvent(sensormultilevelv3.SensorMultilevelReport cmd) {
 
 			// Handle cases where we need to update the temperature alarm state given certain temperatures
 			// Account for a f/w bug where the freeze alarm doesn't trigger at 0C
-			if (map.value < (map.unit == "C" ? 0 : 32)) {
+			if (map.value <= (map.unit == "C" ? 0 : 32)) {
 				log.debug "EARLY FREEZE ALARM @ $map.value $map.unit (raw $intVal)"
 				sendEvent(name: "temperatureAlarm", value: "freeze")
 			}
